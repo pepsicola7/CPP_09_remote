@@ -9,7 +9,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g -fsanitize=address
 
 #Fichier sources et objets
 SRC = main.cpp \
-	Span.cpp
+	BitcoinExchange.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
