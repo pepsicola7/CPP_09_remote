@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:30:59 by peli              #+#    #+#             */
-/*   Updated: 2025/06/23 20:37:32 by peli             ###   ########.fr       */
+/*   Updated: 2025/06/23 20:44:08 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ void    BitcoinExchange::calcule(std::string date, std::string value)
 {
     std::map<std::string, float>::iterator it;
 
-    it = database.find(date);
-    if (it != database.end())
+    it = database.lower_bound(date);
+    if (it->first == date)
     {
         double resultat = atof(value.c_str()) * it->second;
         std::cout << resultat << std::endl;
