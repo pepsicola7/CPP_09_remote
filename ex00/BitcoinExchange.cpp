@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:30:59 by peli              #+#    #+#             */
-/*   Updated: 2025/06/23 16:34:50 by peli             ###   ########.fr       */
+/*   Updated: 2025/06/23 17:25:08 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,15 @@ bool    BitcoinExchange::data_valide(std::string& line)
     std::string year = line.substr(0, 4);
     std::string month = line.substr(5, 2);
     std::string day = line.substr(8, 2);
+    
+    int y = std::atoi(year.c_str());
+    int m = std::atoi(month.c_str());
+    int d = std::atoi(day.c_str());
     std::tm tm;
     std::memset(&tm, 0, sizeof(tm));
-    tm.tm_year = std::atoi(year.c_str());
-    tm.tm_mon  = std::atoi(month.c_str());
-    tm.tm_mday = std::atoi(day.c_str());
+    tm.tm_year = y - 1900;
+    tm.tm_mon  = m - 1;
+    tm.tm_mday = d;
     tm.tm_hour = 0;
     tm.tm_min = 0;
     tm.tm_sec = 0;
@@ -78,9 +82,10 @@ bool    BitcoinExchange::data_valide(std::string& line)
     if (t == -1)
         return (false);
     std::tm local = *std::localtime(&t);
-    if (local.tm_year != std::atoi(year.c_str()) || local.tm_mon != std::atoi(month.c_str()) || local.tm_mday != std::atoi(day.c_str()))
+    if (local.tm_year != y -1900 || local.tm_mon != m - 1 || local.tm_mday != d)
     {
-        // std::cout << "aaa" << std::endl;
+        // std::cout << local.tm_year << '-' << local.tm_mon  << '-' << local.tm_mday << std::endl;
+        // std::cout << std::atoi(year.c_str()) << std::atoi(month.c_str()) << std::atoi(day.c_str()) << std::endl;
         return (false);
     }
     return (true);
@@ -88,8 +93,18 @@ bool    BitcoinExchange::data_valide(std::string& line)
 
 bool    BitcoinExchange::rate_valide(std::string& line)
 {
-    (void) line;
-    return (true);
+    char* endptr = NULL;
+    double value = std::strtod(line.c_str(), &endptr);
+    if (endptr == line.c_str())  // rien n'a été lu
+        return false;
+    while (*endptr != '\0') {
+        if (!std::isspace(*endptr))
+            return false;
+        ++endptr;
+    }
+    if (value < 0.0) // Par exemple, refuser les valeurs négatives
+        return false;
+    return true;
 }
 
 void    BitcoinExchange::load_inputfile(char *file)
