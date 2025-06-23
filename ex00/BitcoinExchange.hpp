@@ -6,16 +6,23 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:42:10 by peli              #+#    #+#             */
-/*   Updated: 2025/06/20 19:41:31 by peli             ###   ########.fr       */
+/*   Updated: 2025/06/23 16:25:09 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <fstream>
 #include <map>
-#include <string>
+#include <cstring>
 #include <stdexcept>
 #include <sstream>
+#include <stdlib.h>
+#include <ctype.h>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+
 
 class BitcoinExchange
 {
