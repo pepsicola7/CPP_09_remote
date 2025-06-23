@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:42:10 by peli              #+#    #+#             */
-/*   Updated: 2025/06/23 16:25:09 by peli             ###   ########.fr       */
+/*   Updated: 2025/06/23 20:12:33 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@
 #include <ctype.h>
 #include <ctime>
 #include <iomanip>
-#include <iostream>
 #include <sstream>
 
 
 class BitcoinExchange
 {
 private:
-    std::map<std::string, int>  database;  
+    std::map<std::string, float>  database;
 public:
     //Orthodox Canonical Form
     BitcoinExchange();
@@ -40,6 +39,7 @@ public:
     void    load_inputfile(char *file);
     bool    data_valide(std::string& line);
     bool    rate_valide(std::string& line);
+    void    calcule(std::string date, std::string value);
 };
 
 

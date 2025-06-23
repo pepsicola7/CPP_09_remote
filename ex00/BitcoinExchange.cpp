@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:30:59 by peli              #+#    #+#             */
-/*   Updated: 2025/06/23 17:25:08 by peli             ###   ########.fr       */
+/*   Updated: 2025/06/23 20:37:32 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void    BitcoinExchange::load_database(const std::string& database_file)
         std::getline(iss, exchange_rate, '\n');
         if (rate_valide(exchange_rate) == false)
             throw std::runtime_error("Error of the Exchange rate in file of data");
+        database[date] = atof(exchange_rate.c_str());
     }
     myfile.close();
 };
@@ -83,11 +84,7 @@ bool    BitcoinExchange::data_valide(std::string& line)
         return (false);
     std::tm local = *std::localtime(&t);
     if (local.tm_year != y -1900 || local.tm_mon != m - 1 || local.tm_mday != d)
-    {
-        // std::cout << local.tm_year << '-' << local.tm_mon  << '-' << local.tm_mday << std::endl;
-        // std::cout << std::atoi(year.c_str()) << std::atoi(month.c_str()) << std::atoi(day.c_str()) << std::endl;
         return (false);
-    }
     return (true);
 }
 
@@ -97,37 +94,85 @@ bool    BitcoinExchange::rate_valide(std::string& line)
     double value = std::strtod(line.c_str(), &endptr);
     if (endptr == line.c_str())  // rien n'a été lu
         return false;
-    while (*endptr != '\0') {
+    while (*endptr != '\0')
+    {
         if (!std::isspace(*endptr))
             return false;
         ++endptr;
     }
-    if (value < 0.0) // Par exemple, refuser les valeurs négatives
+    if (value < 0.0)
+    {
+        std::cerr << "Error: not a positive number." << std::endl;
         return false;
+    }
+    if (value > __INT_MAX__)
+    {
+        std::cerr << "Error: too large a number." << std::endl;
+        return false;
+    }
     return true;
 }
+
+void    BitcoinExchange::calcule(std::string date, std::string value)
+{
+    std::map<std::string, float>::iterator it;
+
+    it = database.find(date);
+    if (it != database.end())
+    {
+        double resultat = atof(value.c_str()) * it->second;
+        std::cout << resultat << std::endl;
+    }
+    else
+    {
+        it = database.lower_bound(date);
+        if (it == database.begin())
+        {
+            std::cerr << "Error: no earlier date found for " << std::endl;
+            return ;
+        }
+        --it;
+        double resultat = atof(value.c_str()) * it->second;
+        std::cout << resultat << std::endl;
+    }
+};
 
 void    BitcoinExchange::load_inputfile(char *file)
 {
     std::ifstream    myfile;
     std::string      line;
+    std::string      date;
+    std::string      value;
     myfile.open(file);
     if (myfile.is_open())
     {
-        getline(myfile, line);
+        std::getline(myfile, line);
         if (line != "date | value")
             throw std::runtime_error("Format of the date and value is not correct.");
-        while (getline(myfile, line))
+        while (std::getline(myfile, line))
         {
-            
+            std::istringstream  iss(line);
+            std::getline(iss, date, ' ');
+            if (data_valide(date) == false)
+            {
+                std::cerr << "Error: bad input  => " << date << std::endl;
+                date.clear();
+                continue;
+            }
+            value = line.substr(13,line.size());
+            if (rate_valide(value) == false)
+            {
+                value.clear();
+                continue;
+            }
+            if (!date.empty() && !value.empty())
+            {
+                std::cout << date << " => " << value << " = ";
+                calcule(date, value);
+            }
         }
     }
     else
         throw std::runtime_error("could not open file.");
     myfile.close();
 };
-
-// 0. Load BTC price database (data.csv)
-//   0.1. Vérifier si le fichier existe //ok
-//   0.2. Parser chaque ligne : "YYYY-MM-DD,price", si price est un float;
-//   0.3. Stocker dans std::map<std::string, double>
