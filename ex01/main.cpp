@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 15:40:11 by peli              #+#    #+#             */
-/*   Updated: 2025/06/24 11:50:05 by peli             ###   ########.fr       */
+/*   Updated: 2025/06/27 17:14:10 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int main(int argc, char** argv)
   try
   {
     RPN test(argv[1]);
+    test.calcul();
   }
   catch(const std::exception& e)
   {

@@ -6,13 +6,14 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:16:31 by peli              #+#    #+#             */
-/*   Updated: 2025/06/24 13:47:02 by peli             ###   ########.fr       */
+/*   Updated: 2025/06/27 16:50:29 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <deque>
 #include <iterator>
+#include <sstream>
 
 class RPN
 {
@@ -26,5 +27,6 @@ public:
 
     void    calcul();
     void    parser(std::string number);
+    void    printDeque();
 };
 

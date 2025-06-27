@@ -1,5 +1,5 @@
 # nom de l'excutable
-TARGET = ./btc
+TARGET = ./RPN
 
 #Compilateur
 CXX = c++
