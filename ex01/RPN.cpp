@@ -6,21 +6,16 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:16:17 by peli              #+#    #+#             */
-/*   Updated: 2025/06/27 17:34:16 by peli             ###   ########.fr       */
+/*   Updated: 2025/06/30 16:53:11 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
 
-RPN::RPN(std::string number)
+RPN::RPN(std::string input)
 {
-    parser(number);
-    for(int i = 0; number[i]; i++)
-    {
-        if (number[i] != ' ')
-            Number.push_back(number[i]);
-    }
-    // std::cout << "Constructeur is called" << std::endl;
+    Input = input;
+    parser(Input);
 }
 
 RPN::~RPN()
@@ -29,80 +24,59 @@ RPN::~RPN()
 
 RPN::RPN(const RPN& other)
 {
-    this->Number = other.Number;
+    this->Input = other.Input;
 };
 
 RPN&    RPN::operator = (const RPN& other)
 {
     if (this != &other)
     {
-        this->Number = other.Number;
+        this->Input = other.Input;
     }
     return (*this);
 };
 
-void RPN::printDeque() {
-    for (std::deque<char>::const_iterator it = Number.begin(); it != Number.end(); ++it) {
-        std::cout << *it << " ";
-    }
-    std::cout << std::endl;
-}
-
-void    RPN::parser(std::string number)
+void    RPN::parser(const std::string &input)
 {
-    int i = 0;
-    while (number[i])
+    std::istringstream  iss(input);
+    std::string token;
+    int resultat;
+    while (iss >> token)
     {
-        if (!std::isdigit(number[i]) && number[i] != '+' && number[i] != '-' && number[i] != '*' && number[i] != '/' && number[i] != ' ')
+        if (token.length() == 1 && std::isdigit(token[0]))
+        {
+            Stack.push(token[0] - '0');
+        }
+        else if (token == "+" || token == "-" || token == "*" || token == "/")
+        {
+            if (Stack.size() < 2)
+            throw std::runtime_error("Not enough operands");
+            int b = Stack.top();
+            Stack.pop();
+            int a = Stack.top();
+            Stack.pop();
+            if (token == "+")
+            resultat = a + b;
+            if (token == "-")
+            resultat = a - b;
+            if (token == "*")
+            resultat = a * b;
+            if (token == "/")
+            {
+                if (b == 0)
+                throw std::runtime_error("Division by 0");
+                resultat = a / b;
+            }
+            Stack.push(resultat);
+        }
+        else
         {
             throw std::runtime_error("Invalid character in input");
-            return ;   
         }
-        i++;
     }
-    if (i == 1)
-        throw std::runtime_error("too little the character");
+    if (Stack.size() != 1)
+        throw std::runtime_error("Invalid expression: stack has leftover elements");
+    std::cout << Stack.top() << std::endl;
 };
 
-void    RPN::calcul()
-{
-    int resultat;
-
-    resultat = Number.at(0) - '0';
-    Number.pop_front();
-    while (Number.size() >= 2)
-    {
-        if(isdigit(Number.at(0)))
-        {
-            int i = 0;
-            while( Number.at(i) != '+' && Number.at(i) != '-' && Number.at(i) != '*' && Number.at(i) != '/')
-            { 
-                i++;     
-            } 
-            std::cout << "Before: ";
-            printDeque();
-            if (Number.at(i) == '+')
-            resultat +=Number.at(0) - '0';
-            if (Number.at(i) == '-')
-            resultat -= Number.at(0) - '0';
-            if (Number.at(i) == '*')
-            resultat *= Number.at(0) - '0';
-            if (Number.at(i) == '/')
-            resultat /= Number.at(0) - '0';
-
-            Number.pop_front();
-            if (i < (int)Number.size()) {
-                std::deque<char>::iterator it = Number.begin();
-                std::advance(it, i);
-                Number.erase(it);
-            }
-        }
-        Number.pop_front();
-        std::cout << "After: ";
-        printDeque();
-    }
-    if (Number.size() >= 1)
-        std::cerr << "Error" << std::endl;
-    else
-        std::cout << resultat << std::endl;
-};
+// std::istringstream ignore les espaces automatiquement.
