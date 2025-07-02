@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:57:53 by peli              #+#    #+#             */
-/*   Updated: 2025/07/02 15:00:29 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/02 15:23:50 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 #include <string>
 #include <ctime>
 #include <sys/time.h>
+#include <cstdlib>
 
 class PmergeMe
 {
 private:
-    std::vector<std::vector<int>>   vecgroups;
+    std::vector<std::vector<int> >   vecgroups;
     std::deque<std::deque<int> >   deqgroups;
     int how_many_chiffre;
 public:
