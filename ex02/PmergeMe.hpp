@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:57:53 by peli              #+#    #+#             */
-/*   Updated: 2025/07/02 10:24:17 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/02 15:00:29 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 class PmergeMe
 {
 private:
-    std::vector<int> vector;
-    std::deque<int>  deque;
+    std::vector<std::vector<int>>   vecgroups;
+    std::deque<std::deque<int> >   deqgroups;
     int how_many_chiffre;
 public:
-    PmergeMe(/* args */);
+    PmergeMe();
     ~PmergeMe();
     PmergeMe(const PmergeMe& other);
     PmergeMe operator = (const PmergeMe& other);
