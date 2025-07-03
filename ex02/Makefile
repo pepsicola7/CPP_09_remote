@@ -1,5 +1,5 @@
 # nom de l'excutable
-TARGET = ./RPN
+TARGET = ./PmergeMe
 
 #Compilateur
 CXX = c++

@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:05 by peli              #+#    #+#             */
-/*   Updated: 2025/07/03 15:31:32 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/03 18:00:09 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void    PmergeMe::parser(char** argv, int argc)
 {
     how_many_chiffre = argc;
     int a;
-    for (int i = 1; i < argc; i++)
+    for (int i = 1; i < argc + 1; i++)
     {
         std::string token = argv[i];
         for (size_t j = 0; j < token.size(); j++)
@@ -65,7 +65,6 @@ void    PmergeMe::parser(char** argv, int argc)
     }
     if (how_many_chiffre % 2 == 1)
     {
-        a = std::atoi(argv[argc]);
         std::vector<int> element;
         element.push_back(a);
         vecgroups.push_back(element);
@@ -103,6 +102,28 @@ std::vector<std::vector<int> > make_pair(std::vector<int> vec)
     return(temps);
 }
 
+std::vector<size_t> jacobsthal_sequence(size_t n)
+{
+    std::vector<size_t> resultat;
+
+    if (n == 0)
+        return resultat;
+    size_t j0 = 0;
+    size_t j1 = 1;
+
+    for (size_t i = 2; i < n; ++i)
+    {
+        size_t jn = j1 + 2 * j0;
+        resultat.push_back(jn);
+        std::cout << "jacobsthal : " << jn << std::endl;
+
+        j0 = j1;
+        j1 = jn;
+    }
+
+    return resultat;
+}
+
 std::vector<int>     merge_sort( std::vector<int> b1)
 {
     for (size_t i = 0; i < b1.size(); i++)
@@ -113,17 +134,27 @@ std::vector<int>     merge_sort( std::vector<int> b1)
     std::vector<std::vector<int> > temps = make_pair(b1);
     
     std::vector<int> b2;
-
+    std::vector<int> smalls;
     for (size_t i = 0; i < temps.size(); i++)
     {
         if (temps[i].size() == 2)
         {
             b2.push_back(std::max(temps[i][0], temps[i][1]));
+            smalls.push_back(std::min(temps[i][0], temps[i][1]));
         }
         else
             b2.push_back(temps[i][0]);
     }
-    return (merge_sort(b2));
+    std::vector<int> big_sort = merge_sort(b2);
+    std::vector<size_t>  insertion_ordre = jacobsthal_sequence(b2.size());
+    for (size_t j = 0; j < insertion_ordre.size(); j++)
+    {
+        size_t index = insertion_ordre[j];
+        if (index >= smalls.size())
+            break;
+        
+    }
+    return (big_sort);
 };
 
 void    PmergeMe::sortVector()
@@ -154,8 +185,8 @@ void    PmergeMe::sortVector()
         }
     }
     std::vector<int> sorted_big = merge_sort(b1);
-    
-    
+    for (size_t i = 0; i < sorted_big.size(); i++)
+        std::cout << "After recursif : " << sorted_big[i] << std::endl;
     
     gettimeofday(&end, NULL);
     long seconds = end.tv_sec - start.tv_sec;
