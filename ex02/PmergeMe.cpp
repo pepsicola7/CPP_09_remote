@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:05 by peli              #+#    #+#             */
-/*   Updated: 2025/07/02 17:42:23 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/03 15:31:32 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void    PmergeMe::parser(char** argv, int argc)
     }
     if (how_many_chiffre % 2 == 1)
     {
+        a = std::atoi(argv[argc]);
         std::vector<int> element;
         element.push_back(a);
         vecgroups.push_back(element);
@@ -82,18 +83,48 @@ void    PmergeMe::parser(char** argv, int argc)
     std::cout <<std::endl;
 };
 
-std::vector<std::vector<int>> make_pair(std::vector<int> vec)
+std::vector<std::vector<int> > make_pair(std::vector<int> vec)
 {
-    std::vector<std::vector<int>> temps;
-    for (int i = 0; i < vec.size(); i++)
+    std::vector<std::vector<int> > temps;
+    for (size_t i = 0; i + 1 < vec.size(); i += 2)
     {
         std::vector<int> element;
         element.push_back(vec[i]);
         element.push_back(vec[i + 1]);
         temps.push_back(element);
     }
+
+    if (vec.size() % 2 != 0)
+    {
+        std::vector<int> last_pair;
+        last_pair.push_back(vec.back());
+        temps.push_back(last_pair);
+    }
     return(temps);
 }
+
+std::vector<int>     merge_sort( std::vector<int> b1)
+{
+    for (size_t i = 0; i < b1.size(); i++)
+        std::cout << b1[i] << " ";
+    std::cout << std::endl;
+    if (b1.size() <= 1)
+        return (b1);
+    std::vector<std::vector<int> > temps = make_pair(b1);
+    
+    std::vector<int> b2;
+
+    for (size_t i = 0; i < temps.size(); i++)
+    {
+        if (temps[i].size() == 2)
+        {
+            b2.push_back(std::max(temps[i][0], temps[i][1]));
+        }
+        else
+            b2.push_back(temps[i][0]);
+    }
+    return (merge_sort(b2));
+};
 
 void    PmergeMe::sortVector()
 {    
@@ -102,25 +133,28 @@ void    PmergeMe::sortVector()
     
     std::vector<int> b1;
     std::vector<int> s1;
-    
-    for (int i = 0; i < vecgroups.size(); i++)
+    for (size_t i = 0; i < vecgroups.size(); i++)
     {
-        if (vecgroups[i][0] > vecgroups[i][1])
-            b1.push_back(vecgroups[i][0]);
-        else
-            s1.push_back(vecgroups[i][1]);
-    }
-    std::vector<std::vector<int>> b1 = make_pair(b1);
-    while (b1.size() > 1)
-    {
-        for (int i = 0; i < b1.size(); i++)
+        if (vecgroups[i].size() == 2)
         {
-            if (b1.[0] > b1.[1])
+            if (vecgroups[i][0] > vecgroups[i][1])
+            {
                 b1.push_back(vecgroups[i][0]);
-            else
                 s1.push_back(vecgroups[i][1]);
+            }
+            else
+            {
+                b1.push_back(vecgroups[i][1]);
+                s1.push_back(vecgroups[i][0]); 
+            }
+        }
+        else
+        {
+            b1.push_back(vecgroups[i][0]);
         }
     }
+    std::vector<int> sorted_big = merge_sort(b1);
+    
     
     
     gettimeofday(&end, NULL);
