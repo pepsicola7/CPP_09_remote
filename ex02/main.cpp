@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:54:59 by peli              #+#    #+#             */
-/*   Updated: 2025/07/04 20:03:10 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/04 20:39:59 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int main(int argc, char **argv)
         test.parser(argv, argc - 1);
         test.sortVector();
         test.sortDeque();
-        test.display();
     }
     catch(const std::exception& e)
     {

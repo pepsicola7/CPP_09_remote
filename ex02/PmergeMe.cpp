@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:05 by peli              #+#    #+#             */
-/*   Updated: 2025/07/04 20:05:00 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/04 20:39:26 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ PmergeMe PmergeMe::operator = (const PmergeMe& other)
 void    PmergeMe::parser(char** argv, int argc)
 {
     how_many_chiffre = argc;
-    int a;
+    // int a;
     for (int i = 1; i < argc + 1; i++)
     {
         std::string token = argv[i];
@@ -48,53 +48,16 @@ void    PmergeMe::parser(char** argv, int argc)
         int value = std::atoi(argv[i]);
         if (value < 0 )
             throw std::runtime_error("Negative number");
-        if (i % 2 == 1)
-            a = value;
-        else
-        {   
-            std::vector<int> element;
-            if (a > value)
-            {
-                element.push_back(a);
-                element.push_back(value);
-            }
-            else
-            {
-                element.push_back(value);
-                element.push_back(a);
-            }
-            vecgroups.push_back(element);
-            std::deque<int> element_;
-            if (a > value)
-            {
-                element_.push_back(a);
-                element_.push_back(value);
-            }
-            else
-            {
-                element_.push_back(value);
-                element_.push_back(a);
-            }
-            deqgroups.push_back(element_);
-        }
+        vecgroups.push_back(value);
+        deqgroups.push_back(value);
     }
-    if (how_many_chiffre % 2 == 1)
+    std::cout << "Before: ";
+    for (size_t i = 0; i < vecgroups.size(); i++)
     {
-        std::vector<int> element;
-        element.push_back(a);
-        vecgroups.push_back(element);
 
-        std::deque<int> element_;
-        element_.push_back(a);
-        deqgroups.push_back(element_);
+            std::cout << vecgroups[i] << " ";
     }
-    // std::cout << "Before: ";
-    // for (size_t i = 0; i < vecgroups.size(); i++)
-    // {
-    //     for (size_t j = 0; j < vecgroups[i].size(); j++)
-    //         std::cout << vecgroups[i][j] << " ";
-    // }
-    // std::cout <<std::endl;
+    std::cout <<std::endl;
 };
 
 std::vector<std::vector<int> > make_pair(std::vector<int> vec)
@@ -129,7 +92,8 @@ std::vector<std::vector<int> > make_pair(std::vector<int> vec)
 std::vector<size_t> jacobsthal_sequence(size_t n)
 {
     std::vector<size_t> seq;
-    if (n == 0) return seq;
+    if (n == 0) 
+        return seq;
 
     seq.push_back(1);
     size_t j0 = 0;
@@ -201,7 +165,7 @@ std::vector<int> merge_sort(std::vector<int> b1)
         if (index < smalls.size())
             binary_insert(big_sort, smalls[index]);
     }
-    if (temps.back().size() == 1)
+    if (smalls.size() < b1.size() / 2)
         binary_insert(big_sort, temps.back()[0]);
     return big_sort;
 }
@@ -212,23 +176,18 @@ void PmergeMe::sortVector()
     struct timeval start, end;
     gettimeofday(&start, NULL);
 
-    std::vector<int> b1;
-    for (size_t i = 0; i < vecgroups.size(); ++i)
-        b1.push_back(vecgroups[i][0]);
+    vecgroups = merge_sort(vecgroups);
 
-    for (size_t i = 0; i < b1.size(); i++)
-        std::cout << b1[i] << " ";;
-        std::cout << std::endl;
-    std::vector<int> sorted = merge_sort(b1);
+    std::cout << "After: ";
+    for (size_t i = 0; i < vecgroups.size(); i++)
+    {
+        std::cout << vecgroups[i] << " ";
+    }
+    std::cout << std::endl;
     gettimeofday(&end, NULL);
     long seconds = end.tv_sec - start.tv_sec;
     long microseconds = end.tv_usec - start.tv_usec;
     long total_microseconds = seconds * 1000000 + microseconds;
-
-    std::cout << "After sjdlp: ";
-    for (size_t i = 0; i < sorted.size(); ++i)
-        std::cout << sorted[i] << " ";
-    std::cout << std::endl;
 
     std::cout << "Time to process a range of " << how_many_chiffre
               << " elements with std::vector: " << total_microseconds << " us" << std::endl;
@@ -248,15 +207,15 @@ void    PmergeMe::sortDeque()
     return ;
 };
 
-void    PmergeMe::display()
-{
-    std::cout << "After: ";
-    for (size_t i = 0; i < vecgroups.size(); i++)
-    {
-        for (size_t j = 0; j < vecgroups[i].size(); j++)
-        std::cout << vecgroups[i][j] << " ";
-    }
-}; 
+// void    PmergeMe::display()
+// {
+//     std::cout << "After: ";
+//     for (size_t i = 0; i < vecgroups.size(); i++)
+//     {
+//         std::cout << vecgroups[i] << " ";
+//     }
+//     std::cout << std::endl;
+// }; 
 
 // {
 //     if (b1.size() <= 1)

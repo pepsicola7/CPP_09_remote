@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:57:53 by peli              #+#    #+#             */
-/*   Updated: 2025/07/04 20:03:07 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/04 20:39:36 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 class PmergeMe
 {
 private:
-    std::vector<std::vector<int> >   vecgroups;
-    std::deque<std::deque<int> >   deqgroups;
+    std::vector<int>   vecgroups;
+    std::deque<int>   deqgroups;
     int how_many_chiffre;
 public:
     PmergeMe();
@@ -34,6 +34,6 @@ public:
     void    parser(char** argv, int argc);
     void    sortVector();
     void    sortDeque();
-    void    display(); 
+    // void    display(); 
 };
 
