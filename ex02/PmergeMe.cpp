@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:05 by peli              #+#    #+#             */
-/*   Updated: 2025/07/04 18:23:05 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/04 20:05:00 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,19 +128,33 @@ std::vector<std::vector<int> > make_pair(std::vector<int> vec)
 
 std::vector<size_t> jacobsthal_sequence(size_t n)
 {
-    std::vector<size_t> resultat;
+    std::vector<size_t> seq;
+    if (n == 0) return seq;
 
+    seq.push_back(1);
     size_t j0 = 0;
     size_t j1 = 1;
-
-    for (size_t i = 2; resultat.size() < n; ++i)
-    {
+    while (seq.size() < n) {
         size_t jn = j1 + 2 * j0;
-        resultat.push_back(jn); 
+        seq.push_back(jn);
         j0 = j1;
         j1 = jn;
     }
-    return resultat;
+
+    std::vector<size_t> result;
+    std::vector<bool> added(n, false);
+    for (size_t i = 0; i < seq.size(); ++i) {
+        if (seq[i] < n && !added[seq[i]]) {
+            result.push_back(seq[i]);
+            added[seq[i]] = true;
+        }
+    }
+
+    for (size_t i = 0; i < n; ++i)
+        if (!added[i])
+            result.push_back(i);
+
+    return result;
 }
 
 
