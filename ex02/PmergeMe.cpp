@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:05 by peli              #+#    #+#             */
-/*   Updated: 2025/07/04 20:55:09 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/04 20:59:12 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void    PmergeMe::parser(char** argv, int argc)
     }
 };
 
-std::vector<std::vector<int> > make_pair(std::vector<int> vec)
+std::vector<std::vector<int> > PmergeMe::make_pair(std::vector<int> vec)
 {
     std::vector<std::vector<int> > temps;
     for (size_t i = 0; i + 1 < vec.size(); i += 2)
@@ -82,7 +82,7 @@ std::vector<std::vector<int> > make_pair(std::vector<int> vec)
 }
 
 
-std::vector<size_t> jacobsthal_sequence(size_t n)
+std::vector<size_t> PmergeMe::jacobsthal_sequence(size_t n)
 {
     std::vector<size_t> seq;
     if (n == 0) 
@@ -115,7 +115,7 @@ std::vector<size_t> jacobsthal_sequence(size_t n)
 }
 
 
-void    binary_insert(std::vector<int>& sorted, int value)
+void    PmergeMe::binary_insert(std::vector<int>& sorted, int value)
 {
     size_t left = 0;
     size_t right = sorted.size();
@@ -130,7 +130,7 @@ void    binary_insert(std::vector<int>& sorted, int value)
     sorted.insert(sorted.begin() + left, value);
 };
 
-std::vector<int> merge_sort(std::vector<int> b1)
+std::vector<int> PmergeMe::merge_sort(std::vector<int> b1)
 {
     if (b1.size() <= 1)
         return b1;
@@ -189,7 +189,7 @@ void PmergeMe::sortVector()
     std::cout << "Time to process a range of " << how_many_chiffre << " elements with std::vector: " << total_microseconds << " us" << std::endl;
 };
 
-std::deque<std::deque<int> > make_pair(std::deque<int> vec)
+std::deque<std::deque<int> > PmergeMe::make_pair(std::deque<int> vec)
 {
     std::deque<std::deque<int> > temps;
     for (size_t i = 0; i + 1 < vec.size(); i += 2)
@@ -217,7 +217,7 @@ std::deque<std::deque<int> > make_pair(std::deque<int> vec)
     return temps;
 }
 
-std::deque<size_t> jacobsthal_sequence_d(size_t n)
+std::deque<size_t> PmergeMe::jacobsthal_sequence_d(size_t n)
 {
     std::deque<size_t> seq;
     if (n == 0) 
@@ -249,7 +249,7 @@ std::deque<size_t> jacobsthal_sequence_d(size_t n)
     return result;
 }
 
-void binary_insert_d(std::deque<int>& sorted, int value)
+void PmergeMe::binary_insert_d(std::deque<int>& sorted, int value)
 {
     size_t left = 0;
     size_t right = sorted.size();
@@ -264,7 +264,7 @@ void binary_insert_d(std::deque<int>& sorted, int value)
     sorted.insert(sorted.begin() + left, value);
 }
 
-std::deque<int> merge_sort_d(const std::deque<int>& b1)
+std::deque<int> PmergeMe::merge_sort_d(const std::deque<int>& b1)
 {
     if (b1.size() <= 1)
         return b1;
