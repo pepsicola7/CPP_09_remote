@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:57:53 by peli              #+#    #+#             */
-/*   Updated: 2025/07/02 15:23:50 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/04 16:31:54 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <ctime>
 #include <sys/time.h>
 #include <cstdlib>
+#include <algorithm>
 
 class PmergeMe
 {
