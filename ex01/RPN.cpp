@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:16:17 by peli              #+#    #+#             */
-/*   Updated: 2025/06/30 16:53:11 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/05 16:13:25 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,21 @@ void    RPN::parser(const std::string &input)
         else if (token == "+" || token == "-" || token == "*" || token == "/")
         {
             if (Stack.size() < 2)
-            throw std::runtime_error("Not enough operands");
+                throw std::runtime_error("Not enough operands");
             int b = Stack.top();
             Stack.pop();
             int a = Stack.top();
             Stack.pop();
             if (token == "+")
-            resultat = a + b;
+                resultat = a + b;
             if (token == "-")
-            resultat = a - b;
+                resultat = a - b;
             if (token == "*")
-            resultat = a * b;
+                resultat = a * b;
             if (token == "/")
             {
                 if (b == 0)
-                throw std::runtime_error("Division by 0");
+                    throw std::runtime_error("Division by 0");
                 resultat = a / b;
             }
             Stack.push(resultat);

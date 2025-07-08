@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:58:05 by peli              #+#    #+#             */
-/*   Updated: 2025/07/04 20:59:12 by peli             ###   ########.fr       */
+/*   Updated: 2025/07/05 12:39:55 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ std::vector<std::vector<int> > PmergeMe::make_pair(std::vector<int> vec)
     return(temps);
 }
 
-
 std::vector<size_t> PmergeMe::jacobsthal_sequence(size_t n)
 {
     std::vector<size_t> seq;
@@ -113,7 +112,6 @@ std::vector<size_t> PmergeMe::jacobsthal_sequence(size_t n)
 
     return result;
 }
-
 
 void    PmergeMe::binary_insert(std::vector<int>& sorted, int value)
 {
@@ -162,7 +160,6 @@ std::vector<int> PmergeMe::merge_sort(std::vector<int> b1)
         binary_insert(big_sort, temps.back()[0]);
     return big_sort;
 }
-
 
 void PmergeMe::sortVector() 
 {
